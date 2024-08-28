@@ -1,0 +1,32 @@
+# Environment file
+.env
+
+# Local DB
+db/
+
+# Composer vendor directory
+/vendor/
+
+# Docker and system files
+.docker/
+*.log
+*.tmp
+*.swp
+
+# IDE and editor files
+*.idea/
+*.vscode/
+*.sublime-project
+*.sublime-workspace
+
+# OS-specific files
+.DS_Store
+Thumbs.db
+
+# Backup files
+*.bak
+*.backup
+*.orig
+
+pour-pro-key.pem
+test.php

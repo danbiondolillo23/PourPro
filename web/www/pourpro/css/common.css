@@ -1,0 +1,133 @@
+body {
+  background-color: #222831;
+  color: #222831;
+}
+
+.wrapper {
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+}
+
+.content {
+  flex: 1 0 auto;
+  padding: 20px;
+}
+
+.cart-container {
+  padding: 20px;
+  border: 1px solid #e0e0e0;
+  border-radius: 10px;
+  background-color: #222831;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+  max-height: 90vh;
+  overflow: hidden;
+  position: relative;
+}
+
+.title {
+  font-family: 'Source Sans Pro', sans-serif;
+  font-weight: bolder; 
+  color: #222831;
+  text-align: start;         
+  font-size: 1.25rem; 
+}
+
+.header-row {
+  border: 2px solid #00848a;
+  border-radius: 10px;
+  background-color: white; 
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1); 
+  margin-top: 2px;
+  margin-bottom: 1rem;
+  padding: 1rem 1.5rem;   
+}
+
+.form {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.navbar {
+  background-color: #1e3a8a; /* Deep blue */
+  margin: 8px;
+  border-radius: 15px;
+  border: 2px solid #8a2be2; /* Purple border */
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+}
+
+.navbar-nav .nav-link {
+  border-radius: 12px;
+  padding: 10px 12px;
+  text-align: center;
+  width: 120px;
+  color: white;
+  transition: background-color 0.3s, color 0.3s; 
+}
+
+.navbar-nav .nav-link:hover {
+  background-color: #00c4cc; /* Light blue for hover */
+  color: #222831; /* Dark gray for hover text */
+}
+
+.navbar-nav .nav-item {
+  margin-right: 20px; 
+}
+
+.navbar-nav.ms-auto .nav-item {
+  margin-left: 0px;
+}
+
+.footer {
+  padding: 10px;
+  text-align: center;
+  position: relative;
+  bottom: 0;
+  left: 0;
+  width: 100%;
+}
+
+@media (max-width: 767px) {
+  .footer {
+    display: none;
+  }
+}
+
+.alert {
+  padding: 20px;
+  margin: 10px 0;
+  border-radius: 5px;
+  text-align: center;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.alert-success {
+  background-color: #d4edda;
+  color: #155724;
+}
+
+.alert-danger {
+  background-color: #f8d7da;
+  color: #721c24;
+}
+
+#notification {
+  min-width: fit-content;
+  min-height: fit-content;
+  position: fixed; 
+  top: 50%;
+  left: 50%; 
+  transform: translate(-50%, -50%);
+  z-index: 1000; 
+  width: 20vw;
+  height: 12vh; 
+  padding: 20px; 
+  text-align: center; 
+  font-size: 14px;
+  border: solid 2px #1f2630;
+  border-radius: 5px; 
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+}
