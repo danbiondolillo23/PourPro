@@ -29,4 +29,5 @@ Thumbs.db
 *.orig
 
 pour-pro-key.pem
+web/www/pourpro/db.php
 test.php
