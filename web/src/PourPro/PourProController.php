@@ -227,7 +227,7 @@ class PourProController {
         if (!empty($this->errorMessage)) {
             $errorMessage = "<div class='alert alert-danger'>{$this->errorMessage}</div>";
         }
-        include '/opt/src/pourpro/frontend/templates/login.php';
+        include '/opt/src/pourpro/PourPro/frontend/templates/login.php';
     }
 
     public function showSignUp() {
@@ -235,52 +235,52 @@ class PourProController {
         if (!empty($this->errorMessage)) {
             $errorMessage = "<div class='alert alert-danger'>{$this->errorMessage}</div>";
         }
-        include '/opt/src/pourpro/frontend/templates/signup.php';
+        include '/opt/src/pourpro/PourPro/frontend/templates/signup.php';
     }
 
     public function showProfile() {
-        include '/opt/src/pourpro/frontend/templates/profile.php';
+        include '/opt/src/pourpro/PourPro/frontend/templates/profile.php';
     }
 
     public function showInventory() {
         $this->getAllProductsFromDatabase();
-        include '/opt/src/pourpro/frontend/templates/inventory.php';
+        include '/opt/src/pourpro/PourPro/frontend/templates/inventory.php';
     }
 
     public function showDetail($product_id) {
         $productDetails = $this->getProductDetails($product_id);
         $_SESSION['product_details'] = $productDetails;
 
-        include '/opt/src/pourpro/frontend/templates/detail.php';
+        include '/opt/src/pourpro/PourPro/frontend/templates/detail.php';
     }
 
     public function showCustViewProducts() {
-        include '/opt/src/pourpro/frontend/templates/custViewProducts.php';
+        include '/opt/src/pourpro/PourPro/frontend/templates/custViewProducts.php';
     }
 
     public function showCart() {
-        include '/opt/src/pourpro/frontend/templates/cart.php';
+        include '/opt/src/pourpro/PourPro/frontend/templates/cart.php';
     }
     public function showCheckout() {
-        include '/opt/src/pourpro/frontend/templates/checkout.php';
+        include '/opt/src/pourpro/PourPro/frontend/templates/checkout.php';
     }
 
     public function showPastOrders() {
         $this->getAllPastOrders();
-        include '/opt/src/pourpro/frontend/templates/pastOrders.php';
+        include '/opt/src/pourpro/PourPro/frontend/templates/pastOrders.php';
     }
     public function showPurchaseHistory() {
         $this->getPurchaseHistory();
-        include '/opt/src/pourpro/frontend/templates/purchaseHistory.php';
+        include '/opt/src/pourpro/PourPro/frontend/templates/purchaseHistory.php';
     }
 
     public function showSpendAnalysis() {
         $this->getSpendAnalysis();
-        include '/opt/src/pourpro/frontend/templates/spendAnalysis.php';
+        include '/opt/src/pourpro/PourPro/frontend/templates/spendAnalysis.php';
     }
     public function showSales(){
         $this->getSales();
-        include '/opt/src/pourpro/frontend/templates/sales.php';
+        include '/opt/src/pourpro/PourPro/frontend/templates/sales.php';
     }
 
     private function getProductDetails($product_id) {
@@ -645,7 +645,6 @@ class PourProController {
             }
         };
 
-        // Update the session variable with the modified orders
         $_SESSION["orders"] = $orders;
         return $orders;
     }
@@ -707,8 +706,6 @@ class PourProController {
         }
     }
 
-
-    // Edit existing product in database from Inventory View
     public function updateProduct() {
 
         if ($_SERVER["REQUEST_METHOD"] == "POST") {

@@ -8,20 +8,17 @@ class Config {
     private $dbConfig = [];
 
     private function __construct() {
-        // Determine if we are running in AWS EC2 or locally
         $isLocal = getenv('APP_ENV') === 'local';
 
         if ($isLocal) {
-            // Load local environment variables
             $this->dbConfig = [
-                "host" => getenv('DB_HOST') ?: 'localhost',
-                "port" => getenv('DB_PORT') ?: 5432,
-                "user" => getenv('DB_USER') ?: 'localuser',
-                "pass" => getenv('DB_PASS') ?: 'cs4640LocalUser!',
-                "database" => getenv('DB_NAME') ?: 'example'
+                "host" => getenv('host') ?: 'localhost',
+                "port" => getenv('port') ?: 5432,
+                "user" => getenv('username') ?: 'localuser',
+                "pass" => getenv('password') ?: 'cs4640LocalUser!',
+                "database" => getenv('dbInstanceIdentifier') ?: 'example'
             ];
         } else {
-            // Fetch secrets from AWS Secrets Manager
             $secretName = 'prod/PourPro/postgres-1';
             $client = new SecretsManagerClient([
                 'version' => 'latest',
@@ -37,11 +34,11 @@ class Config {
                 $credentials = json_decode($secret, true);
 
                 $this->dbConfig = [
-                    "host" => $credentials['DB_HOST'] ?? 'localhost',
-                    "port" => $credentials['DB_PORT'] ?? 5432,
-                    "user" => $credentials['DB_USER'] ?? 'localuser',
-                    "pass" => $credentials['DB_PASS'] ?? 'cs4640LocalUser!',
-                    "database" => $credentials['DB_NAME'] ?? 'example'
+                    "host" => $credentials['host'] ?? 'localhost',
+                    "port" => $credentials['port'] ?? 5432,
+                    "user" => $credentials['username'] ?? 'localuser',
+                    "pass" => $credentials['password'] ?? 'cs4640LocalUser!',
+                    "database" => $credentials['dbInstanceIdentifier'] ?? 'example'
                 ];
 
             } catch (AwsException $e) {

@@ -7,34 +7,35 @@ services:
     container_name: 'db'
     restart: on-failure
     ports:
-      - "5432:5432"
+      - 5432:5432
     environment:
-      POSTGRES_USER: localuser
-      POSTGRES_PASSWORD: cs4640LocalUser!
-      POSTGRES_DB: example
+      POSTGRES_USER: ${POSTGRES_USER}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
+      POSTGRES_DB: ${POSTGRES_DB}
       TZ: "America/New_York"
     volumes:
       - db-data:/var/lib/postgresql/data
-
   php:
     build:
       context: ./web/
       dockerfile: ./Dockerfile
     container_name: 'web'
     ports:
-      - "8080:80"
+      - 8080:80
     volumes:
-      - ./web/src/:/opt/src/           # Maps your source code to a non-public directory
-      - ./web/www/:/var/www/html/       # Maps your public web files (e.g., index.php, CSS, JS) to Apache's document root
-      - ./web/log/:/opt/log/            # Logs directory
+      - ./web/src/:/opt/src/pourpro
+      - ./web/www/:/var/www/html/
+      - ./web/cgi-bin/:/usr/lib/cgi-bin/
+      - ./web/log/:/opt/log/
     depends_on:
       - db
     environment:
       TZ: "America/New_York"
-      DB_HOST: db                       # Optional: Pass the DB service name as a host
-      DB_PORT: 5432                     # Optional: Pass the DB port
-      DB_USER: localuser                # Optional: Pass the DB user
-      DB_PASS: cs4640LocalUser!         # Optional: Pass the DB password
-      DB_NAME: example                  # Optional: Pass the DB name
+      APP_ENV: "local"
+      host: ${host}
+      port: ${port}
+      username: ${username}
+      password: ${password}
+      dbInstanceIdentifier: ${dbInstanceIdentifier}
 volumes:
   db-data:
