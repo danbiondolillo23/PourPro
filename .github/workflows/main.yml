@@ -32,7 +32,7 @@ jobs:
     # SSH into EC2 and stop existing container (if running)
     - name: Stop existing container
       run: |
-        ssh -o StrictHostKeyChecking=no -i ec2_key.pem ec2-user@3.20.214.168 << 'EOF'
+        ssh -o StrictHostKeyChecking=no -t -i ec2_key.pem ec2-user@3.20.214.168 << 'EOF'
         docker stop pourpro || true
         docker rm pourpro || true
         EOF
@@ -45,6 +45,6 @@ jobs:
     # Run the Docker container on EC2
     - name: Run Docker container on EC2
       run: |
-        ssh -o StrictHostKeyChecking=no -i ec2_key.pem ec2-user@3.20.214.168 << 'EOF'
+        ssh -o StrictHostKeyChecking=no -t -i ec2_key.pem ec2-user@3.20.214.168 << 'EOF'
         docker run -d --name pourpro -p 80:80 pourpro:latest
         EOF
