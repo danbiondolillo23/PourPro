@@ -1,0 +1,50 @@
+name: PourPro CI/CD Pipeline
+
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+
+    steps:
+    # Checkout the repository
+    - name: Checkout code
+      uses: actions/checkout@v2
+
+    # Set up Docker for building the image
+    - name: Set up Docker
+      uses: docker/setup-buildx-action@v1
+
+    # Build the Docker image
+    - name: Build Docker image
+      run: |
+        docker build -t pourpro:latest ./web
+
+    # Add SSH key for accessing the EC2 instance
+    - name: Add SSH key
+      run: |
+        echo "${{ secrets.EC2_SSH_KEY }}" > ec2_key.pem
+        chmod 600 ec2_key.pem
+
+    # SSH into EC2 and stop existing container (if running)
+    - name: Stop existing container
+      run: |
+        ssh -o StrictHostKeyChecking=no -T -i ec2_key.pem ec2-user@3.20.214.168 << 'EOF'
+        docker stop pourpro || true
+        docker rm pourpro || true
+        EOF
+
+    # Copy the new Docker image to EC2
+    - name: Copy Docker image to EC2
+      run: |
+        docker save pourpro:latest | bzip2 | ssh -o StrictHostKeyChecking=no -T -i ec2_key.pem ec2-user@3.20.214.168 'bunzip2 | docker load'
+
+    # Run the Docker container on EC2
+    - name: Run Docker container on EC2
+      run: |
+        ssh -o StrictHostKeyChecking=no -T -i ec2_key.pem ec2-user@3.20.214.168 << 'EOF'
+        docker run -d --name pourpro -p 80:80 pourpro:latest
+        EOF
