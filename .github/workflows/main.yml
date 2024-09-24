@@ -21,7 +21,7 @@ jobs:
     # Build the Docker image
     - name: Build Docker image
       run: |
-        docker build -t pourpro:latest .
+        docker build -t pourpro:latest ./web
 
     # Add SSH key for accessing the EC2 instance
     - name: Add SSH key
