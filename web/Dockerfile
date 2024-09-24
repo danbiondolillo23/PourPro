@@ -14,16 +14,17 @@ RUN curl -sS https://getcomposer.org/installer | php -- --install-dir=/usr/local
 # Copy PHP configuration
 COPY ./php-ini/php.prod.ini /usr/local/etc/php/php.ini
 
-# Enable CGI module
-RUN a2enmod cgi
-
 # Enable Apache modules
+RUN a2enmod cgi
 RUN a2enmod rewrite
 RUN a2enmod vhost_alias
 RUN a2enmod ssl
 
 # Copy custom vhost file
 COPY ./vhosts.conf /etc/apache2/sites-available/000-default.conf
+
+# Enable the custom virtual host
+RUN a2ensite 000-default.conf
 
 # Ensure destination directory exists
 RUN mkdir -p /opt/src/pourpro/frontend
