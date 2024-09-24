@@ -30,6 +30,7 @@ Thumbs.db
 
 log
 web/src/PourPro/vendor
+db.py
 pour-pro-key.pem
 test.php
 web/www/pourpro/db.php
