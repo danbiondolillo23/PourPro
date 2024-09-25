@@ -46,5 +46,10 @@ jobs:
     - name: Run Docker container on EC2
       run: |
         ssh -o StrictHostKeyChecking=no -T -i ec2_key.pem ec2-user@3.20.214.168 << 'EOF'
-        docker run -d --name pourpro -p 80:80 -p 443:443 -v /etc/letsencrypt/live:/etc/letsencrypt/live pourpro:latest
+        docker run -d \
+          --name pourpro \
+          -p 80:80 \
+          -p 443:443 \
+          -v /etc/letsencrypt:/etc/letsencrypt:ro \
+          pourpro:latest
         EOF
