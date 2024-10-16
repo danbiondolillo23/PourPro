@@ -1,11 +1,11 @@
 <?php
 
-class PourProController {
+class OriginalController {
 
     private $input;
     private $errorMessage = '';
     private $db;
-    public function __construct($input, $config) {
+    public function __construct($config, $input = "") {
         session_start();
         $this->input = $input;
         $this->db = new Database($config);

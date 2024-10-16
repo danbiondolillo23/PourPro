@@ -1,5 +1,7 @@
 <?php
 
+namespace pourpro;
+
 use Aws\SecretsManager\SecretsManagerClient;
 use Aws\Exception\AwsException;
 

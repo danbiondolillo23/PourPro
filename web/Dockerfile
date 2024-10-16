@@ -1,9 +1,9 @@
 FROM php:8.1-apache
 
-RUN echo "Setting up PHP"
-
 # Install necessary packages
-RUN apt-get update && apt-get install -y libpq-dev git libzip-dev
+RUN echo "Setting up PHP" && \
+    apt-get update && \
+    apt-get install -y libpq-dev git libzip-dev
 
 # Install PHP extensions
 RUN docker-php-ext-install pgsql pdo pdo_pgsql zip 
@@ -11,40 +11,41 @@ RUN docker-php-ext-install pgsql pdo pdo_pgsql zip
 # Install Composer globally
 RUN curl -sS https://getcomposer.org/installer | php -- --install-dir=/usr/local/bin --filename=composer
 
-# Copy PHP configuration
+# Copy PHP configuration based on environment
 COPY ./php-ini/php.prod.ini /usr/local/etc/php/php.ini
 
 # Enable Apache modules
-RUN a2enmod cgi
-RUN a2enmod rewrite
-RUN a2enmod vhost_alias
-RUN a2enmod ssl
+RUN a2enmod cgi && \
+    a2enmod rewrite && \
+    a2enmod vhost_alias
 
-# Copy custom vhost file
-COPY ./vhosts.conf /etc/apache2/sites-available/000-default.conf
+# Skip SSL in local environment
+RUN if [ "$ENV" = "production" ]; then a2enmod ssl; fi
 
-# Enable the custom virtual host
-RUN a2ensite 000-default.conf
-
-# Ensure destination directory exists
-RUN mkdir -p /opt/src/pourpro/frontend
+# Conditionally copy the appropriate vhost file
+RUN if [ "$ENV" = "production" ]; then \
+      cp ./vhosts.conf /etc/apache2/sites-available/000-default.conf; \
+      a2ensite 000-default.conf; \
+    else \
+      cp ./vhosts.dev.conf /etc/apache2/sites-available/000-default.conf; \
+      a2ensite 000-default.conf; \
+    fi
 
 # Copy application source files (including Composer files)
-COPY ./src/PourPro/ /opt/src/pourpro/PourPro
-COPY ./composer.json /opt/src/pourpro/PourPro
-COPY ./composer.lock /opt/src/pourpro/PourPro
-
-# Set working directory to /opt/src/pourpro/PourPro for Composer installation
-WORKDIR /opt/src/pourpro/PourPro
-
-# Install Composer dependencies
-RUN composer install --no-dev --optimize-autoloader
+COPY ./src/ /opt/src/pourpro
+COPY ./composer.json /opt/src/pourpro
+COPY ./composer.lock /opt/src/pourpro
 
 # Set permissions
 RUN chown -R www-data:www-data /opt/src/pourpro && chmod -R 755 /opt/src/pourpro
 
-# Ensure destination directory exists
-RUN mkdir -p /var/www/html/pourpro
+# Set working directory to /opt/src/pourpro/ for Composer installation
+WORKDIR /opt/src/pourpro
+
+# Install Composer dependencies
+RUN composer install --optimize-autoloader
+
+RUN chown -R www-data:www-data /opt/src/pourpro/vendor
 
 # Copy the web application files to the document root
 COPY ./www /var/www/html

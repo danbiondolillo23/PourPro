@@ -1,5 +1,7 @@
 <?php
 
+namespace pourpro;
+
 class Database {
     private $dbConnector;
     private $config;

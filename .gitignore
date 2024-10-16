@@ -2,7 +2,11 @@
 .env
 
 # Composer vendor directory
-/vendor/
+web/vendor
+web/www/db.php
+web/www/products.json
+web/cgi-bin/
+web/php-ini/
 
 # Docker and system files
 .docker/
@@ -26,6 +30,5 @@ Thumbs.db
 *.orig
 
 log
-web/src/PourPro/vendor
 pour-pro-key.pem
-web/www/pourpro/db.php
+

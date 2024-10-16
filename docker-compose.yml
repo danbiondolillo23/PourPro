@@ -23,8 +23,6 @@ services:
     ports:
       - 8080:80
     volumes:
-      - ./web/src/:/opt/src/pourpro
-      - ./web/www/:/var/www/html/
       - ./web/cgi-bin/:/usr/lib/cgi-bin/
       - ./web/log/:/opt/log/
     depends_on:
